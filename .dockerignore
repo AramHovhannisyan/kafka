@@ -1,0 +1,10 @@
+nogit*
+node_modules/
+.git/
+.venv/
+.vscode/
+Makefile
+Dockerfile
+docker-compose.yml
+template.yml
+template-infra.yml
