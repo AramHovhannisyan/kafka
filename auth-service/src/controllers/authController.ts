@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { loginUser, logoutUser, refreshUserToken } from '../services/authService';
 import { generateAndSaveTokens } from '../services/tokenService';
 import { validateLoginRequest } from '../validators/validateLoginEndpoint';
+import sendRecord from '../config/kafka';
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -28,6 +29,9 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     // Generate tokens and save to cookie
     const tokens = await generateAndSaveTokens(user);
     res.cookie('refreshToken', tokens.refreshToken, { maxAge: 15 * 24 * 60 * 60 * 1000, httpOnly: true });
+
+    // Save with kafka
+    sendRecord('Bye KafkaJS user!');
 
     return res.status(200).json({
       status: 'success',

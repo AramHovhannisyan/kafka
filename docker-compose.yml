@@ -1,14 +1,23 @@
 version: '3.9'
 services:
   auth:
-      build: ./auth-service
-      ports:
-        - "3001:3001"
-      environment:
-        KAFKA_BROKER: broker:9092
-        NODE_ENV: dev
-      depends_on:
-        - broker
+    build: ./auth-service
+    ports:
+      - "3001:3001"
+    develop:
+      watch:
+        - action: sync
+          path: ./auth-service
+          target: /app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./auth-service/package.json
+    environment:
+      KAFKA_BROKER: broker:9092
+      NODE_ENV: dev
+    depends_on:
+      - broker
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.2

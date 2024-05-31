@@ -33,7 +33,6 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
     // Save with kafka
     sendRecord('Hello KafkaJS user!');
-  
 
     return res.status(200).json({
       status: 'success',
